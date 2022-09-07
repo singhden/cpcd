@@ -1,0 +1,163 @@
+<mvc:View
+    controllerName="zurich.fscm.ui.cpcd.controller.List"
+    xmlns="sap.m"
+ 	xmlns:core="sap.ui.core"    
+    xmlns:semantic="sap.f.semantic"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable"    
+    xmlns:mvc="sap.ui.core.mvc">
+
+    <Page showHeader="false">
+        <content>      
+        <Table id="dasboardTable" 
+                items="{listView>/dashboard}"
+                mode= "SingleSelectMaster"  
+                itemPress="onSelectionChange"       
+                growing="true" 
+                growingThreshold="30"
+                growingScrollToLoad="true">                 
+		<headerToolbar>
+			<OverflowToolbar>
+				<Title text="{listView>/total}" level="H2"/>
+				<ToolbarSpacer/>
+  
+                
+                <Text id="currentdate" text="{path:'listView>/today', type:'sap.ui.model.type.Date', formatOptions: { pattern: 'MMM dd,yyyy HH:mm:ss'}}" />            
+				<!-- Add Search field -->
+                        <SearchField
+                            id="searchField"
+                            showRefreshButton="false"
+                            tooltip="{i18n>listSearchTooltip}"
+                            search=".onSearch"
+                            liveChange=".onSearch"  
+                                                      
+                            width="auto"/>
+				
+				<Button icon="sap-icon://refresh" press="onRefresh" /> 
+
+			</OverflowToolbar>
+		</headerToolbar>                      
+			<columns>
+				<Column id="RepUnit" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "RepUnit ", "autoColumnWidth": "true" , "columnIndex": 0, "leadingProperty": "RepUnit", "sortProperty": "RepUnit",  "filterProperty": "RepUnit"}' />
+					</customData>
+					<Text text="{i18n>repUnit}" />
+				</Column>            
+				<Column id="BankBic" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "BankBic ", "autoColumnWidth": "true", "columnIndex": 1, "leadingProperty": "BankBic", "sortProperty": "BankBic",  "filterProperty": "BankBic"}' />
+					</customData>
+					<Text text="{i18n>bank}" />
+				</Column>
+
+			<Column id="BankAccL" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "BankAccL", "autoColumnWidth": "true", "columnIndex": 2, "leadingProperty": "BankAccL", "sortProperty": "BankAccL",  "filterProperty": "BankAccL"}' />
+					</customData>
+					<Text text="{i18n>localAcc}" />
+				</Column>
+
+
+				<Column id="Currency" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "Currency", "autoColumnWidth": "true" , "columnIndex": 3, "leadingProperty": "Currency", "sortProperty": "Currency",  "filterProperty": "Currency"}' />
+					</customData>
+					<Text text="{/#DASHBOARD/Currency/@sap:label}" />
+				</Column>            
+					<Column id="CutOffCet" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "CutOffCet ", "autoColumnWidth": "true", "columnIndex": 4, "leadingProperty": "CutOffCet", "sortProperty": "CutOffCet",  "filterProperty": "CutOffCet"}' />
+					</customData>
+					<Text text="{i18n>cutoffTime}" />
+				</Column>
+
+                
+				<Column id="T" hAlign="Begin" visible="true" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT", "autoColumnWidth": "true", "columnIndex": 5, "leadingProperty": "AmtT", "sortProperty": "AmtT",  "filterProperty": "AmtT"}' />
+					</customData>
+					<Text text="{parts: [{path: 'appView>/userFormat/DataFormat'},{path:'listView>/columns/T'}], formatter:'.formatter.dateformat'}" />
+				</Column>
+
+				<Column id="T1" hAlign="Begin" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT1", "autoColumnWidth": "true" , "columnIndex": 6, "leadingProperty": "AmtT1", "sortProperty": "AmtT1",  "filterProperty": "AmtT1"}' />
+					</customData>
+					<Text text="{parts: [{path: 'appView>/userFormat/DataFormat'},{path:'listView>/columns/T1'}], formatter:'.formatter.dateformat'}" />
+				</Column>            
+				<Column id="T2" hAlign="Begin" visible="true" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT2", "autoColumnWidth": "true", "columnIndex": 7, "leadingProperty": "AmtT2", "sortProperty": "AmtT2",  "filterProperty": "AmtT2"}' />
+					</customData>
+					<Text text="{parts: [{path: 'appView>/userFormat/DataFormat'},{path:'listView>/columns/T2'}], formatter:'.formatter.dateformat'}" />
+				</Column>
+
+				<Column id="T3" hAlign="Begin" visible="true" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT3", "autoColumnWidth": "true", "columnIndex": 8, "leadingProperty": "AmtT3", "sortProperty": "AmtT3",  "filterProperty": "AmtT3"}' />
+					</customData>
+					<Text text="{parts: [{path: 'appView>/userFormat/DataFormat'},{path:'listView>/columns/T3'}], formatter:'.formatter.dateformat'}" />
+				</Column>                
+				<Column id="T4" hAlign="Begin" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT4", "autoColumnWidth": "true" , "columnIndex": 9, "leadingProperty": "AmtT4", "sortProperty": "AmtT4",  "filterProperty": "AmtT4"}' />
+					</customData>
+					<Text text="{parts: [{path: 'appView>/userFormat/DataFormat'},{path:'listView>/columns/T4'}], formatter:'.formatter.dateformat'}" />
+				</Column>            
+    			<Column id="T5" hAlign="Begin" visible="true" minScreenWidth="Desktop" demandPopin="true" popinDisplay="Inline">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT5", "autoColumnWidth": "true", "columnIndex": 10, "leadingProperty": "", "sortProperty": "AmtT5",  "filterProperty": "AmtT5"}' />
+					</customData>
+					<Text text="{parts: [{path: 'appView>/userFormat/DataFormat'},{path:'listView>/columns/T5'}], formatter:'.formatter.dateformat'}" /> 
+				</Column> 
+			</columns>
+			<items>
+				<ColumnListItem  type="Navigation" press=".onSelectionChange">
+					<cells>
+						<Text text="{listView>RepUnit}" />
+						<Text text="{listView>BankBic}" />
+ 						<Text text="{listView>BankAccL}" />
+
+                        <Text text="{listView>Currency}" />                    
+	                    <!--<Text text="{path: 'listView>CutOffCet', type: 'sap.ui.model.odata.type.Time', formatOptions: {style: 'short'}}" /> -->
+                                                    
+                        <Text text="{listView>CutOffDateTimeT}"/>                                                                                                
+                        <ObjectNumber number="{parts: [{path: 'appView>/userFormat/DecimalFormat'},{path:'listView>AmtT'},{path:'listView>TX'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'listView>StatusStrT'},{path:'listView>TX'}], formatter:'.formatter.Status'}" state="{path:'listView>State'}"/>        
+
+                        <ObjectNumber number="{parts: [{path: 'appView>/userFormat/DecimalFormat'},{path:'listView>AmtT1'},{path:'listView>T1X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'listView>StatusStrT1'},{path:'listView>T1X'}], formatter:'.formatter.Status'}" state="{path:'listView>State1'}"/>        
+
+                        <ObjectNumber number="{parts: [{path: 'appView>/userFormat/DecimalFormat'},{path:'listView>AmtT2'},{path:'listView>T2X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'listView>StatusStrT2'},{path:'listView>T2X'}], formatter:'.formatter.Status'}" state="{path:'listView>State2'}"/>        
+                    
+                        <ObjectNumber number="{parts: [{path: 'appView>/userFormat/DecimalFormat'},{path:'listView>AmtT3'},{path:'listView>T3X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'listView>StatusStrT3'},{path:'listView>T3X'}], formatter:'.formatter.Status'}" state="{path:'listView>State3'}"/>        
+
+                        <ObjectNumber number="{parts: [{path: 'appView>/userFormat/DecimalFormat'},{path:'listView>AmtT4'},{path:'listView>T4X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'listView>StatusStrT4'},{path:'listView>T4X'}], formatter:'.formatter.Status'}" state="{path:'listView>State4'}"/>        
+
+                        <ObjectNumber number="{parts: [{path: 'appView>/userFormat/DecimalFormat'},{path:'listView>AmtT5'},{path:'listView>T5X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'listView>StatusStrT5'},{path:'listView>T5X'}], formatter:'.formatter.Status'}" state="{path:'listView>State5'}"/>                                            
+
+					<!--	<Text text="{path:'Status', formatter:'.formatter.requestStatusText'}" />     -->                                                                 
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+ 	<!--</smartTable:SmartTable>  -->         
+        </content>
+    </Page>
+</mvc:View>

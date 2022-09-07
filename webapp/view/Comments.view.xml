@@ -1,0 +1,115 @@
+<mvc:View
+	controllerName="zurich.fscm.ui.cpcd.controller.Comments"
+    xmlns:f="sap.ui.layout.form"
+	xmlns:mvc="sap.ui.core.mvc"
+    xmlns:semantic="sap.f.semantic"    
+	xmlns="sap.m">
+
+   <semantic:SemanticPage
+        id="commentsPage" headerPinnable="false"
+        showFooter="false">
+        <semantic:titleHeading>
+            <Title id="_IDGenTitle1"
+                text="{parts: [{path: 'appView>/userFormat/DataFormat'},{path:'appView>/selectedSweep/ValueDate'}], formatter:'.formatter.dateformat'}"
+                level="H2"/>
+        </semantic:titleHeading> 
+       
+        <semantic:headerContent>
+            <ObjectAttribute id="_IDGenObjectAttribute1" title="{i18n>Status}" text="{appView>/selectedSweep/StatusT}"/>        
+        </semantic:headerContent>
+        <semantic:content>
+
+		<f:SimpleForm id="SimpleFormDisplay354"
+			editable="false"
+			layout="ResponsiveGridLayout"
+			labelSpanXL="0"
+			labelSpanL="0"
+			labelSpanM="0"
+			labelSpanS="12"
+			adjustLabelSpan="false"
+			emptySpanXL="4"
+			emptySpanL="4"
+			emptySpanM="4"
+			emptySpanS="0"
+			columnsXL="1"
+			columnsL="1"
+			columnsM="1"
+			singleContainerFullSize="false" >
+			<f:content>
+	<FeedInput
+		post="onPost"
+		showIcon="false"
+		class="sapUiSmallMarginTopBottom" placeholder="Please add some comments and post here"/>
+                <!--<TextArea id="" value="{detailView>/rejectionComments}" growing="true" width="100%" />
+                <Button text="Add Comments">
+                </Button>-->
+	<List
+		showSeparators="Inner"
+		items="{commentsView>/list}" >
+		<FeedListItem
+			sender="{commentsView>CreatedByName}"
+			senderPress="onSenderPress"
+            activeIcon="false"
+			iconPress="onIconPress"
+			iconDensityAware="true"
+			info="{path:'commentsView>CreatedOn', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}"
+			timestamp="{ path: 'commentsView>CreatedAt', type: 'sap.ui.model.odata.type.Time', formatOptions: {style: 'short'}}"
+			text="{commentsView>Content}"
+			convertLinksToAnchorTags="All"/>
+	</List>
+ 			</f:content>
+		</f:SimpleForm>
+
+  </semantic:content>
+
+
+        <semantic:closeAction>
+            <semantic:CloseAction
+                    id="closeColumn"
+                    press=".onCloseDetailPress"/>
+        </semantic:closeAction>
+
+    </semantic:SemanticPage>
+
+<!--	<DynamicPage toggleHeaderOnTitleClick="false">
+		<title>
+			<DynamicPageTitle>
+				<heading>
+					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
+						<m:Title text="{path:'appView>/selectedSweep/ValueDate', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}" wrapping="true" class="sapUiTinyMarginEnd"/>
+					</m:FlexBox>
+				</heading>
+
+				<navigationActions>
+					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://decline" press="onCloseDetailPress"  tooltip="Close end column" />
+				</navigationActions>
+
+			</DynamicPageTitle>
+		</title>
+		<content>
+     
+			<m:Link text="Navigate to next page…" press="handleAboutPress" />
+	<m:FeedInput
+		post="onPost"
+		icon=""
+		class="sapUiSmallMarginTopBottom" />
+       <m:List
+		showSeparators="Inner"
+		items="{/EntryCollection}" >
+		<m:FeedListItem
+			sender="{Author}"
+			icon="{AuthorPicUrl}"
+			senderPress="onSenderPress"
+			iconPress="onIconPress"
+			iconDensityAware="false"
+			info="{Type}"
+			timestamp="{Date}"
+			text="{Text}"
+			convertLinksToAnchorTags="All"/>
+	</m:List>
+         <m:TextArea id="" value="{detailView>/rejectionComments}" growing="true" width="100%" />
+ 
+		</content>
+	</DynamicPage> -->
+
+</mvc:View>

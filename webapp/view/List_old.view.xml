@@ -1,0 +1,251 @@
+<mvc:View
+    controllerName="zurich.fscm.ui.cpcd.controller.List"
+    xmlns="sap.m"
+ 	xmlns:core="sap.ui.core"    
+    xmlns:semantic="sap.f.semantic"
+	xmlns:smartFilterBar="sap.ui.comp.smartfilterbar"
+	xmlns:smartTable="sap.ui.comp.smarttable"    
+    xmlns:mvc="sap.ui.core.mvc">
+
+    	<Page showHeader="false">
+    <!--<semantic:SemanticPage
+        id="listPage" 
+        preserveHeaderStateOnScroll="false" 
+        toggleHeaderOnTitleClick="false">
+         <semantic:titleHeading>
+           <Title
+                id="listPageTitle"
+                text="{listView>/title}"
+                level="H2"/>
+        </semantic:titleHeading> -->
+        <content>
+            <!-- For client side filtering add this to the items attribute: parameters: {operationMode: 'Client'}}" -->
+        <!--    <List
+                id="list"
+                width="auto"
+                class="sapFDynamicPageAlignContent"
+                items="{
+                    path: '/DASHBOARDSet',
+                    sorter: {
+                        path: 'RepUnit',
+                        descending: false
+                    },
+                    groupHeaderFactory: '.createGroupHeader'
+                }"
+                busyIndicatorDelay="{listView>/delay}"
+                noDataText="{listView>/noDataText}"
+                mode="{= ${device>/system/phone} ? 'None' : 'SingleSelectMaster'}"
+                growing="true"
+                growingScrollToLoad="true"
+                updateFinished=".onUpdateFinished"
+                selectionChange=".onSelectionChange">
+
+                <infoToolbar>
+                    <Toolbar
+                        active="true"
+                        id="filterBar"
+                        visible="{listView>/isFilterBarVisible}"
+                        press=".onOpenViewSettings">
+                        <Title
+                            id="filterBarLabel"
+                            text="{listView>/filterBarLabel}"
+                            level="H3"/>
+                    </Toolbar>
+                </infoToolbar>
+
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <SearchField
+                            id="searchField"
+                            showRefreshButton="true"
+                            tooltip="{i18n>listSearchTooltip}"
+                            search=".onSearch"
+                            width="auto">
+                            <layoutData>
+                                <OverflowToolbarLayoutData
+                                    minWidth="150px"
+                                    maxWidth="240px"
+                                    shrinkable="true"
+                                    priority="NeverOverflow"/>
+                            </layoutData>
+                        </SearchField>
+                        <ToolbarSpacer/>
+                        <Button
+                            id="sortButton"
+                            press=".onOpenViewSettings"
+                            icon="sap-icon://sort"
+                            type="Transparent"/>
+
+                        <Button
+                            id="filterButton"
+                            press=".onOpenViewSettings"
+                            icon="sap-icon://filter"
+                            type="Transparent"/>
+                        <Button
+                            id="groupButton"
+                            press=".onOpenViewSettings"
+                            icon="sap-icon://group-2"
+                            type="Transparent"/>
+
+                    </OverflowToolbar>
+                </headerToolbar>
+                <items>
+                    <ObjectListItem
+                        type="Navigation"
+                        press=".onSelectionChange"
+                        title="{RepUnit}"
+                        number="{
+                            path: 'AmtT',
+                            formatter: '.formatter.numberUnit'
+                        }"
+                        unit="{StatusT}" />
+                </items>
+            </List> -->
+<!--<smartFilterBar:SmartFilterBar  entitySet="DASHBOARDSet" enableBasicSearch="true" search="onSearch"/> -->
+<smartTable:SmartTable id="_dashboardSmartTable" entitySet="DASHBOARDSet"
+		smartFilterId="smartFilterBar" tableType="ResponsiveTable"
+		useExportToExcel="false" beforeExport="onBeforeExport" useVariantManagement="false"
+		useTablePersonalisation="true" header="Reporting Units" showRowCount="true" beforeRebindTable="onBeforeRebindTable" initialise="onInitialise"
+		persistencyKey="SmartTableAnalytical_Explored" enableAutoBinding="true"
+		demandPopin="true" class="sapUiResponsiveContentPadding" >
+  		<smartTable:customToolbar>
+			<OverflowToolbar id="_IDGenOverflowToolbar1" design="Transparent">
+				<ToolbarSpacer id="_IDGenToolbarSpacer1"/>  
+                <SearchField width="250px" placeholder="Search" search="onSearch"/>                    
+ 				<OverflowToolbarButton id="1214" icon="sap-icon://refresh" tooltip="refresh" text="refresh" press="onRefresh"/>                                                       
+			    <OverflowToolbarButton id="242" icon="sap-icon://sort" tooltip="Sort" text="Sort" press="onSort"/>
+				<OverflowToolbarButton id="4324" icon="sap-icon://filter" tooltip="Filter" text="Filter" press="onFilter"/>
+			</OverflowToolbar>
+		</smartTable:customToolbar>    
+            
+        <smartTable:layoutData>
+            <FlexItemData id="_IDGenFlexItemData1" growFactor="1" baseSize="0%"/>
+        </smartTable:layoutData>	
+        <Table  id="dasboardTable"
+                mode= "SingleSelectMaster"  
+                itemPress="onSelectionChange"       
+                growing="true" 
+                growingThreshold="30"
+                growingScrollToLoad="true">       
+			<columns>
+				<Column id="RepUnit" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "RepUnit ", "autoColumnWidth": "true" , "columnIndex": 0, "leadingProperty": "RepUnit", "sortProperty": "RepUnit",  "filterProperty": "RepUnit"}' />
+					</customData>
+					<Text text="{i18n>repUnit}" />
+				</Column>            
+				<Column id="BankBic" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "BankBic ", "autoColumnWidth": "true", "columnIndex": 1, "leadingProperty": "BankBic", "sortProperty": "BankBic",  "filterProperty": "BankBic"}' />
+					</customData>
+					<Text text="{i18n>bank}" />
+				</Column>
+
+			<Column id="BankAccL" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "BankAccL", "autoColumnWidth": "true", "columnIndex": 2, "leadingProperty": "BankAccL", "sortProperty": "BankAccL",  "filterProperty": "BankAccL"}' />
+					</customData>
+					<Text text="{i18n>localAcc}" />
+				</Column>
+
+
+				<Column id="Currency" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "Currency", "autoColumnWidth": "true" , "columnIndex": 3, "leadingProperty": "Currency", "sortProperty": "Currency",  "filterProperty": "Currency"}' />
+					</customData>
+					<Text text="{/#DASHBOARD/Currency/@sap:label}" />
+				</Column>            
+					<Column id="CutOffCet" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "CutOffCet ", "autoColumnWidth": "true", "columnIndex": 4, "leadingProperty": "CutOffCet", "sortProperty": "CutOffCet",  "filterProperty": "CutOffCet"}' />
+					</customData>
+					<Text text="{i18n>cutoffTime}" />
+				</Column>
+
+                
+				<Column id="T" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT", "autoColumnWidth": "true", "columnIndex": 5, "leadingProperty": "AmtT", "sortProperty": "AmtT",  "filterProperty": "AmtT"}' />
+					</customData>
+					<Text text="{path:'listView>/columns/T', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}" />
+				</Column>
+
+				<Column id="T1" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT1", "autoColumnWidth": "true" , "columnIndex": 6, "leadingProperty": "AmtT1", "sortProperty": "AmtT1",  "filterProperty": "AmtT1"}' />
+					</customData>
+					<Text text="{path:'listView>/columns/T1', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}" />
+				</Column>            
+				<Column id="T2" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT2", "autoColumnWidth": "true", "columnIndex": 7, "leadingProperty": "AmtT2", "sortProperty": "AmtT2",  "filterProperty": "AmtT2"}' />
+					</customData>
+					<Text text="{path:'listView>/columns/T2', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}" />
+				</Column>
+
+				<Column id="T3" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT3", "autoColumnWidth": "true", "columnIndex": 8, "leadingProperty": "AmtT3", "sortProperty": "AmtT3",  "filterProperty": "AmtT3"}' />
+					</customData>
+					<Text text="{path:'listView>/columns/T3', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}" />
+				</Column>                
+				<Column id="T4" hAlign="Begin">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT4", "autoColumnWidth": "true" , "columnIndex": 9, "leadingProperty": "AmtT4", "sortProperty": "AmtT4",  "filterProperty": "AmtT4"}' />
+					</customData>
+					<Text text="{path:'listView>/columns/T4', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}" />
+				</Column>            
+    			<Column id="T5" hAlign="Begin" visible="true">
+					<customData>
+						<core:CustomData key="p13nData"
+										 value='\{"columnKey": "AmtT5", "autoColumnWidth": "true", "columnIndex": 10, "leadingProperty": "", "sortProperty": "AmtT5",  "filterProperty": "AmtT5"}' />
+					</customData>
+					<Text text="{path:'listView>/columns/T5', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}" /> 
+				</Column> 
+			</columns>
+			<items>
+				<ColumnListItem  type="Navigation" press=".onSelectionChange">
+					<cells>
+						<Text text="{RepUnit}" />
+						<Text text="{BankBic}" />
+ 						<Text text="{BankAccL}" />
+
+                        <Text text="{Currency}" />                    
+	                    <Text text="{path: 'CutOffCet', type: 'sap.ui.model.odata.type.Time', formatOptions: {style: 'short'}}" />                                               
+                        <ObjectNumber number="{parts: [{path:'AmtT'},{path:'TX'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'StatusStrT'},{path:'TX'}], formatter:'.formatter.Status'}" state="{path:'StatusT', formatter:'.formatter.State'}"/>        
+
+                        <ObjectNumber number="{parts: [{path:'AmtT1'},{path:'T1X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'StatusStrT1'},{path:'T1X'}], formatter:'.formatter.Status'}" state="{path:'StatusT1', formatter:'.formatter.State'}"/>        
+
+                        <ObjectNumber number="{parts: [{path:'AmtT2'},{path:'T2X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'StatusStrT2'},{path:'T2X'}], formatter:'.formatter.Status'}" state="{path:'StatusT2', formatter:'.formatter.State'}"/>        
+                    
+                        <ObjectNumber number="{parts: [{path:'AmtT3'},{path:'T3X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'StatusStrT3'},{path:'T3X'}], formatter:'.formatter.Status'}" state="{path:'StatusT3', formatter:'.formatter.State'}"/>        
+
+                        <ObjectNumber number="{parts: [{path:'AmtT4'},{path:'T4X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'StatusStrT4'},{path:'T4X'}], formatter:'.formatter.Status'}" state="{path:'StatusT4', formatter:'.formatter.State'}"/>        
+
+                        <ObjectNumber number="{parts: [{path:'AmtT5'},{path:'T5X'}], formatter:'.formatter.Amount'}" 
+                                    unit="{parts: [{path:'StatusStrT5'},{path:'T5X'}], formatter:'.formatter.Status'}" state="{path:'StatusT5', formatter:'.formatter.State'}"/>                                            
+
+					<!--	<Text text="{path:'Status', formatter:'.formatter.requestStatusText'}" />     -->                                                                 
+					</cells>
+				</ColumnListItem>
+			</items>
+		</Table>
+	</smartTable:SmartTable>          
+        </content>
+    </Page>
+</mvc:View>

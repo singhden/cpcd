@@ -1,0 +1,27 @@
+<core:FragmentDefinition xmlns="sap.m" 
+xmlns:mvc="sap.ui.core.mvc" 
+xmlns:l="sap.ui.layout"
+xmlns:f="sap.ui.layout.form" 
+xmlns:core="sap.ui.core" 
+xmlns:semantic="sap.m.semantic"
+xmlns:app="http://schemas.sap.com/sapui5/extension/sap.ui.core.CustomData/1">
+
+<Dialog id="_IDGenDialog1" draggable="true" title="{i18n>Reject sweep}" resizable="true" contentWidth="350px">
+<f:SimpleForm id="_IDGenSimpleForm1" editable="true" layout="ResponsiveGridLayout" labelSpanXL="1" labelSpanL="1" labelSpanM="1"
+labelSpanS="12" adjustLabelSpan="false" emptySpanXL="1" emptySpanL="1" emptySpanM="1" emptySpanS="1" columnsXL="1" columnsL="1" columnsM="1"
+singleContainerFullSize="false">
+    <f:content>
+    <!--<TextArea  value="{uploadView>/message}" growing="true" width="100%"  enabled="true"/>-->
+
+        <Label id=""  text="{i18n>Please enter reason for rejection}" required="true"/>
+        <TextArea id="_IDGenInput1" placeholder="Please enter reason for rejection" value="{detailView>/rejectionComments}" growing="true" width="100%" />
+
+    </f:content>
+</f:SimpleForm>
+<buttons>
+<Button id="_IDGenButton1" press="onReject" text="{i18n>Reject}" />
+<Button id="_IDGenButton2" press="onClose" text="{i18n>Cancel}"/>
+</buttons>
+</Dialog> 
+
+</core:FragmentDefinition>

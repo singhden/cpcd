@@ -29,35 +29,6 @@ sap.ui.define([
             // Control state model
             var oList = "", //this.byId("list"),
                 oViewModel = this._createViewModel();
-
-            //    this._oDetailTable = this.byId(Constants.DetailTableID);
-            //    this._oDetailUITable = this.byId(Constants.DetailUITableID);
-
-          /*  this._oGroupFunctions = {
-                AmtT: function(oContext) {
-                    var iNumber = oContext.getProperty('AmtT'),
-                        key, text;
-                    if (iNumber <= 20) {
-                        key = "LE20";
-                        text = this.getResourceBundle().getText("listGroup1Header1");
-                    } else {
-                        key = "GT20";
-                        text = this.getResourceBundle().getText("listGroup1Header2");
-                    }
-                    return {
-                        key: key,
-                        text: text
-                    };
-                }.bind(this)
-            };
-
-            //this._oList = oList;
-            // keeps the filter and search state
-            this._oListFilterState = {
-                aFilter : [],
-                aSearch : []
-            };*/
-
             this.setModel(oViewModel, "listView");
  
             var that = this;
@@ -65,13 +36,11 @@ sap.ui.define([
                 var date = new Date();
                 var localTime = date.getTime();
                 var localOffset = date.getTimezoneOffset() * 60000;      
-               // localOffset = localOffset + 3600000*2;
-                 // obtain UTC time in msec
+                  // obtain UTC time in msec
                 var utc = localTime + localOffset;
                 // create new Date object for current Locale
                 var crrentDate = new Date(utc + (3600000*localOffset));
-                //localOffset =  utc;
-                
+                //localOffset =  utc;                
                 var cetDate = new Date().toLocaleString("de-DE", {timeZone: 'Europe/Berlin'});
                 var cetTime =  cetDate.split(",")[1];
                     cetDate= cetDate.split(",")[0];                
@@ -85,19 +54,6 @@ sap.ui.define([
                 seconds= parseInt(cetTime.substring(cetTime.lastIndexOf(":")+1));            
                               
                 ms = (hours*3600 + minutes*60+ seconds)*1000;               
-                
-               /// var utcDate = new Date(year+"-"+month+"-"+day+ cetTime+" UTC");//new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),0,0,0,0));
-               
-               /* var gDate = new Date().toLocaleString("en-GB", {timeZone: 'Europe/London'});
-                 gTime =  gDate.split(",")[1];
-                 gDate= gDate.split(",")[0];    
-
-                day =  gDate.substring(0,gDate.indexOf("."));  
-                month = gDate.substring( gDate.indexOf(".")+1,  gDate.lastIndexOf("."));
-                year =  gDate.substring(gDate.lastIndexOf(".")+1)  ;                            
-                hours = parseInt(gTime.substring(gTime.indexOf(":")-2,gTime.indexOf(":", 2)));            
-                minutes= parseInt(gTime.substring(gTime.lastIndexOf(":")-2, gTime.lastIndexOf(":")));
-                seconds= parseInt(gTime.substring(gTime.lastIndexOf(":")+1)); */
 
                // var cetDate = new Date(year+"-"+month+"-"+day+ cetTime+" UTC");
                 var utcHours = parseInt(date.toUTCString().substring(date.toUTCString().indexOf(":")-2,date.toUTCString().indexOf(":", 2)));
@@ -110,27 +66,15 @@ sap.ui.define([
                     r.CutOffCetL = {
                         ms: r.CutOffCet.ms, 
                         "__edmType": "Edm.Time"
-                    };
-                    hours = date.getHours();            
-                    minutes= date.getMinutes();
-                    seconds= date.getSeconds();            
-                                  
-                    ms = (hours*3600 + minutes*60+ seconds)*1000; 
-
-                    r.CutOffCetL.ms = r.CutOffCet.ms - (cetDifferenceGMT*3600 )*1000 - (localOffset);   
-  
+                    };     
+                    // Calculate Cut off time Local by offsetting with Cut off CET Time                    
+                    r.CutOffCetL.ms = r.CutOffCet.ms - (cetDifferenceGMT*3600 )*1000 - (localOffset);    
                 });  
                 }                           
             }, 1000);          
             var oEventBus = sap.ui.getCore().getEventBus();
             oEventBus.subscribe("list", "refresh", this._refreshDashboard, this); 
-
-           /* this.getView().addEventDelegate({
-                onBeforeFirstShow: function () {
-                    this.getOwnerComponent().oListSelector.setBoundMasterList(oList);
-                }.bind(this)
-            });*/
-
+            this.oModel = this.getOwnerComponent().getModel();
             this.getRouter().getRoute("list").attachPatternMatched(this._onMasterMatched, this);
             this.getRouter().attachBypassed(this.onBypassed, this);
         },
@@ -175,26 +119,14 @@ sap.ui.define([
             }
             
             if (sQuery) {
-              //  this._oListFilterState.aSearch = [new Filter("RepUnit", FilterOperator.Contains, sQuery)];
-                var filters1 = [];
-            //   filters1.push(new sap.ui.model.Filter("RepUnit", sap.ui.model.FilterOperator.EQ, sQuery));
-            //   filters1.push(new sap.ui.model.Filter("RepUnit", sap.ui.model.FilterOperator.StartsWith, sQuery));
-                filters1.push(new sap.ui.model.Filter("RepUnit", sap.ui.model.FilterOperator.Contains, sQuery));
-             //   filters1.push(new sap.ui.model.Filter("RepUnit", sap.ui.model.FilterOperator.EndsWith, sQuery));
+                 var filters1 = [];
+                 filters1.push(new sap.ui.model.Filter("RepUnit", sap.ui.model.FilterOperator.Contains, sQuery));
                 var filters2 = [];
-             //  filters2.push(new sap.ui.model.Filter("BankBic", sap.ui.model.FilterOperator.EQ, sQuery));
-        //   filters2.push(new sap.ui.model.Filter("BankBic", sap.ui.model.FilterOperator.StartsWith, sQuery));
-                filters2.push(new sap.ui.model.Filter("BankBic", sap.ui.model.FilterOperator.Contains, sQuery));
-            //    filters2.push(new sap.ui.model.Filter("BankBic", sap.ui.model.FilterOperator.EndsWith, sQuery));
+                 filters2.push(new sap.ui.model.Filter("BankBic", sap.ui.model.FilterOperator.Contains, sQuery));
                 var filters3 = [];
-               // filters3.push(new sap.ui.model.Filter("BankAccL", sap.ui.model.FilterOperator.EQ, sQuery)); 
-               // filters3.push(new sap.ui.model.Filter("BankAccL", sap.ui.model.FilterOperator.StartsWith, sQuery));                             
                 filters3.push(new sap.ui.model.Filter("BankAccL", sap.ui.model.FilterOperator.Contains, sQuery));                             
-               //filters3.push(new sap.ui.model.Filter("BankAccL", sap.ui.model.FilterOperator.EndsWith, sQuery));                                         
                 var afilter= [];
-                //afilter.push(new sap.ui.model.Filter(filters1,true))  ;
-                //afilter.push(new sap.ui.model.Filter(filters2))  ;
-                afilter.push(new sap.ui.model.Filter(filters3));   
+                  afilter.push(new sap.ui.model.Filter(filters3));   
 
                 var contains = sap.ui.model.FilterOperator.Contains;
                 var columns = ['RepUnit','BankBic','BankAccL','Currency',"AmtT","AmtT1","AmtT2","AmtT3","AmtT4","AmtT5", "StatusStrT" , "StatusStrT1", "StatusStrT2", "StatusStrT3", "StatusStrT4", "StatusStrT5"];
@@ -226,7 +158,7 @@ sap.ui.define([
            this._readDashboard(this);
         },
 
-        onBeforeRebindTable:function(oEvent){
+       /* onBeforeRebindTable:function(oEvent){
             var oBindingParams = oEvent.getParameter("bindingParams");      
             var that = this;               
             oBindingParams.parameters.select =  oBindingParams.parameters.select + Constants.Parameters;
@@ -241,7 +173,7 @@ sap.ui.define([
                     that.getModel("listView").setProperty("/columns", data.results[0]);
                     }
                 });                          
-        },         
+        },        
 		onSort: function () {
 			var oSmartTable = this._getSmartTable();
 			if (oSmartTable) {
@@ -261,7 +193,7 @@ sap.ui.define([
 			if (oSmartTable) {
 				oSmartTable.openPersonalisationDialog("Group");
 			}		
-        },
+        },*/
         /**
          * Event handler for the filter, sort and group buttons to open the ViewSettingsDialog.
          * @param {sap.ui.base.Event} oEvent the button press event
@@ -373,7 +305,7 @@ sap.ui.define([
                 //oList.setSelectedItem(oListItem, bSelect?)                 
             }
         },
-        onInitialise: function (oEvent){
+       /* onInitialise: function (oEvent){
            this.getView().byId(oEvent.getSource().getId()+"-btnPersonalisation").setVisible(false);   
         },
 		onSort: function () {
@@ -395,7 +327,7 @@ sap.ui.define([
 				this._oSmartTable = this.getView().byId("_dashboardSmartTable");
 			}
 			return this._oSmartTable;
-		},
+		},*/
         /**
          * Event handler for the bypassed event, which is fired when no routing pattern matched.
          * If there was an object selected in the list, that selection is removed.
@@ -449,8 +381,6 @@ sap.ui.define([
         },
 
         _onMasterMatched:  function() {
-            //var btn = this.getView().byId("application-zurichfscmuicpcd-display-component---list--_dashboardSmartTable-btnPersonalisation");
-           // btn.setVisible(false);
             //Set the layout property of the FCL control to 'OneColumn'
             this.getModel("appView").setProperty("/layout", "OneColumn");
             var that = this;
@@ -492,29 +422,17 @@ sap.ui.define([
                     that.getModel("appView").setProperty("/userFormat", userDefaults);
                 }
             });
-          //  this.sScenario  = this.getModel("appView").getProperty("/scenario");
-           // var oFilters= [new sap.ui.model.Filter("Scenario", "EQ" , sScenario)];           
   
             this._readDashboard(this);                                 
-           /*
-            this.getOwnerComponent().getModel().read(Constants.ColumnSet,{           
-                success:function(data, response){                
-                    that.getModel("listView").setProperty("/columns", data.results[0]);
-                    }
-                });              
-  var items = this.getView().byId("tableBsegments").getBinding("items");
-            this.idProposal = oEvent.getParameter("arguments").Id;
-
-            var oFilters = [new sap.ui.model.Filter("Id", sap.ui.model.FilterOperator.EQ, this.idProposal)];
-            var filterObj = new sap.ui.model.Filter(oFilters, false);
-            items.filter(filterObj);*/
-
        },
-
+        /*
+        * Read the dashboard and column dates
+        */       
        _readDashboard: function (that){
         var sScenario = that.getModel("appView").getProperty("/scenario");            
         var oFilters= [new sap.ui.model.Filter("Scenario", "EQ" , sScenario)];
-        this.getOwnerComponent().getModel().read(Constants.DashboardSet,{   
+        //this.getOwnerComponent().getModel().read(Constants.DashboardSet,{  
+        that.oModel.read(Constants.DashboardSet,{       
             filters:oFilters,         
             success:function(data, response){    
                 //that.getModel("listView").setProperty("/total", data.results.length)  ;                          
@@ -523,24 +441,28 @@ sap.ui.define([
                 that.getModel("listView").setProperty("/total", sTitle);                    
             }
         });
-        this.getOwnerComponent().getModel().read(Constants.ColumnSet,{           
+        //this.getOwnerComponent().getModel().read(Constants.ColumnSet,{      
+        that.oModel.read(Constants.ColumnSet,{                        
             filters:oFilters, 
             success:function(data, response){                
                 that.getModel("listView").setProperty("/columns", data.results[0]);
             }
         });        
        },
-  
+        /*
+        * Refresh the dashboard when data changed on the detail screen
+        */  
        _refreshDashboard: function (sChanel, oEvent, oData){   
             var that = this; 
             var oFilters= [new sap.ui.model.Filter("Scenario", "EQ" , oData.sScenario)];
-            this.getOwnerComponent().getModel().read(Constants.DashboardSet,{   
+            //this.getOwnerComponent().getModel().read(Constants.DashboardSet,{   
+            oData.oModel.read(Constants.DashboardSet,{       
                 filters:oFilters,         
                 success:function(data, response){    
                     //that.getModel("listView").setProperty("/total", data.results.length)  ;                          
                     that.getModel("listView").setProperty("/dashboard", data.results);
-                    var sTitle = that.getResourceBundle().getText("tableHeader", [data.results.length]);
-                    that.getModel("listView").setProperty("/total", sTitle);                    
+                    //var sTitle = that.getResourceBundle().getText("tableHeader", [data.results.length]);
+                    that.getModel("listView").setProperty("/total", "Reporting Unit ("+data.results.length+")");                    
                 }
             });
        },

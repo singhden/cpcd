@@ -10,35 +10,14 @@ sap.ui.define([
             var oViewModel,
                 fnSetAppNotBusy,
                 iOriginalBusyDelay = this.getView().getBusyIndicatorDelay();                
-            var scenario ="01";//this.getOwnerComponent().getComponentData().startupParameters["Scenario"];     
-            
-            /*if (this.getOwnerComponent().getComponentData().startupParameters.hasOwnProperty("Scenario")){
-                scenario = this.getOwnerComponent().getComponentData().startupParameters["Scenario"];
-            }else{
-                scenario ="01";                
-            }
-                
-            /*if   (scenario === undefined){
-                scenario ="01";                       
-            }else{
-                scenario =   scenario[0];                     
-            }*/
+            var scenario ="01";//Cash Pooling 
 
             var complete_url = window.location.href;
             if   (complete_url.indexOf("ZZ9FSCM_CD") >0){
-                scenario ="02";                       
+                scenario ="02";        // Call deposit               
             }else{
-                scenario ="01";                 
+                scenario ="01";        //Cash Pooling         
             }
-                        
-        /*    var pieces = complete_url.split("?");            
-            var params = pieces[1].split("&");          
-            $.each( params, function( key, value ) {           
-                var param_value = value.split("=");
-                if (param_value[0]==="Scenario"){
-                    scenario = param_value[1]; 
-                }
-            });*/
 
             oViewModel = new JSONModel({
                 busy : true,

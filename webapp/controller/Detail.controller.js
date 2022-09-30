@@ -66,6 +66,7 @@ sap.ui.define([
         onCancel:function(oEvent){
             this.getModel("appView").setProperty("/layout", "OneColumn")   
         },
+        
         onComments: function(oEvent){
             var bReplace = !Device.system.phone;
              this.getModel("appView").setProperty("/layout", "ThreeColumnsMidExpanded");
@@ -99,16 +100,7 @@ sap.ui.define([
         },
         onAmountChange: function(oEvent){
             var that = this;
-            var id = oEvent.getSource();
-
-              //  var userDefaults = this.getModel("appView").getProperty("/userFormat");          
-             //   var val = userDefaults.DecimalFormat.format(oEvent.getSource().getValue()).toFixed(2);
-                //oEvent.getSource().setValue(val);
-               //var str = oEvent.getSource().getValue();                               
-               // str =Number(str.slice(0, (str.indexOf(".")) + 2 + 1));
-               // this.getModel("detailView").setProperty(path+"/Amount", str.toString())  ;
-               // oEvent.getSource().setValue(str.toString()); 
-                       
+            var id = oEvent.getSource();             
         },
         onSelect : function(oEvent){
             var items = this.getModel("detailView").getProperty("/items"), that = this;
@@ -175,8 +167,19 @@ sap.ui.define([
                 this.getModel("detailView").setProperty("/approveVisible",approveVisible);
                 this.getModel("detailView").setProperty("/saveVisible",saveVisible);  
                 this.getModel("detailView").setProperty("/sendApprovalVisible",sendApprovalVisible);
-                                                
-        },
+
+                var columns = this.getModel("appView").getProperty("/layout");             
+                if (columns === "ThreeColumnsMidExpanded"){              
+                    var that = this, id;  
+                     id = this.getModel("detailView").getProperty("/items/"+ parseInt(row) +"/TranIdStr")     
+                    this.getModel("appView").setProperty("/selectedSweep", this.getModel("detailView").getProperty("/items/"+ parseInt(row)));        
+                     this.getRouter().navTo("comments", {
+                        objectId : that.sRepUnit, 
+                        account : encodeURIComponent(that.sAccount),                
+                        Id :id
+                    }); 
+                }
+            },
 
         onSubmitDialog: function(oEvent){
             var sDialogKey = "_dialog";
@@ -255,17 +258,12 @@ sap.ui.define([
             };          
           
             var Scenario =  this.getModel("appView").getProperty("/scenario");
-           // if ( parseFloat(selection.Amount) <= parseFloat(selection.MaxSweep)){
-            if (Scenario ==="02"){
+             if (Scenario ==="02"){
                 oPayload.Type = sSelection.Type;
                 oPayload.Remittance = sSelection.Remittance;
-            }        
-            //}else
-            // if (Scenario ==="02" && parseFloat(sSelection.Amount) > parseFloat(sSelection.MaxSweep)){
-            //    MessageBox.error("Transaction Amount: "+sSelection.Amount+" cannot be more than Available balance: "+ sSelection.MaxSweep );  
-            //}else{   
+            }          
                 this._update(sSelection, oPayload);         
-            //}
+
         },
 
         onReject:function (oEvent) {           
@@ -346,7 +344,7 @@ sap.ui.define([
                         //refresh master list   
                         that.getOwnerComponent().getModel().refresh();    
                         var oEventBus = sap.ui.getCore().getEventBus();
-                        oEventBus.publish("list", "refresh", {sScenario: that.getModel("appView").getProperty("/scenario")}); 
+                        oEventBus.publish("list", "refresh", {sScenario: that.getModel("appView").getProperty("/scenario"), oModel: that.getOwnerComponent().getModel()}); 
 
                         that._readItems(that.sRepUnit, that.sAccount, that.sScenario);                              
                     }
@@ -377,17 +375,7 @@ sap.ui.define([
                 this.getRouter().navTo("list");                             
             }  else{
                 //this.sAccount  =  selectedItem.BankAccL;       
-                this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded"); 
-                //var d = new Date();
-                //var localTime = d.getTime();
-               // var localOffset = d.getTimezoneOffset() * 60000;
-                
-               // selectedItem.CutOffCetL = {
-                //    ms:selectedItem.CutOffCet.ms, 
-                //    "__edmType": "Edm.Time"
-               // };
-                //selectedItem.CutOffCetL.ms = selectedItem.CutOffCetL.ms+localOffset;                
-                //this.getModel("appView").setProperty("/selectedItem", selectedItem);                 
+                this.getModel("appView").setProperty("/layout", "TwoColumnsMidExpanded");                
                 this.getModel("detailView").setProperty("/Item", selectedItem);  
                 this.selectedItem = selectedItem ;               
             }   
@@ -399,13 +387,6 @@ sap.ui.define([
             this.getModel("detailView").setProperty("/sendApprovalVisible",false);  
 
             this.getView().byId("sweepTable").removeSelections();                   
-            /*    this.getModel().metadataLoaded().then( function() {
-               var sObjectPath = this.getModel().createKey("DASHBOARDSet", {
-                    RepUnit:  sRepUnit, BankAccL: sAccount, Scenario:sScenario
-                });
-                //this._bindView("/" + sObjectPath);
-                this.getModel("detailView").setProperty("/Item", this.getModel().getProperty(sObjectPath)); 
-            }.bind(this));*/
         },
 
         /**
@@ -415,7 +396,7 @@ sap.ui.define([
          * @param {string} sObjectPath path to the object to be bound to the view.
          * @private
          */
-        _bindView: function (sObjectPath) {
+      /*  _bindView: function (sObjectPath) {
             // Set busy indicator during view binding
             var oViewModel = this.getModel("detailView");
 
@@ -462,7 +443,7 @@ sap.ui.define([
                 oResourceBundle.getText("shareSendEmailObjectSubject", [sObjectId]));
             oViewModel.setProperty("/shareSendEmailMessage",
                 oResourceBundle.getText("shareSendEmailObjectMessage", [sObjectName, sObjectId, location.href]));
-        },
+        },*/
 
         _onMetadataLoaded: function () {
             // Store original busy indicator delay for the detail view
@@ -479,10 +460,6 @@ sap.ui.define([
             oViewModel.setProperty("/delay", iOriginalViewBusyDelay);
         },
 
-        /*
-
-
-*/
         _readItems( sRepUnit, sAccount, sScenario ){
             this.getView().setBusy(true);
             var oFilters = [new sap.ui.model.Filter("RepUnit", sap.ui.model.FilterOperator.EQ, sRepUnit), 

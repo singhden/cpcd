@@ -71,45 +71,4 @@
 
     </semantic:SemanticPage>
 
-<!--	<DynamicPage toggleHeaderOnTitleClick="false">
-		<title>
-			<DynamicPageTitle>
-				<heading>
-					<m:FlexBox wrap="Wrap" fitContainer="true" alignItems="Center">
-						<m:Title text="{path:'appView>/selectedSweep/ValueDate', type:'sap.ui.model.type.Date', formatOptions: { style: 'long', UTC: true}}" wrapping="true" class="sapUiTinyMarginEnd"/>
-					</m:FlexBox>
-				</heading>
-
-				<navigationActions>
-					<m:OverflowToolbarButton type="Transparent" icon="sap-icon://decline" press="onCloseDetailPress"  tooltip="Close end column" />
-				</navigationActions>
-
-			</DynamicPageTitle>
-		</title>
-		<content>
-     
-			<m:Link text="Navigate to next page…" press="handleAboutPress" />
-	<m:FeedInput
-		post="onPost"
-		icon=""
-		class="sapUiSmallMarginTopBottom" />
-       <m:List
-		showSeparators="Inner"
-		items="{/EntryCollection}" >
-		<m:FeedListItem
-			sender="{Author}"
-			icon="{AuthorPicUrl}"
-			senderPress="onSenderPress"
-			iconPress="onIconPress"
-			iconDensityAware="false"
-			info="{Type}"
-			timestamp="{Date}"
-			text="{Text}"
-			convertLinksToAnchorTags="All"/>
-	</m:List>
-         <m:TextArea id="" value="{detailView>/rejectionComments}" growing="true" width="100%" />
- 
-		</content>
-	</DynamicPage> -->
-
 </mvc:View>

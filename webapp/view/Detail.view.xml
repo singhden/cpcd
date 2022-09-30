@@ -73,8 +73,6 @@
 					<ObjectIdentifier id="_IDGenObjectIdentifier1"
 						title="{parts: [{path: 'appView>/userFormat/DataFormat'},{path:'detailView>ValueDate'}], formatter:'.formatter.dateformat'}"
 						text="{detailView>Name}"/>
-					<!--<Input id="_TransactionAmount" liveChange="onLiveChange" change="onAmountChange"
-						value="{path: 'detailView>Amount'}" enabled="{detailView>Enabled}" textAlign="Right" />-->   
 
 					<Input value="{parts: [{path: 'appView>/userFormat/DecimalFormat'}, {path: 'detailView>Amount'}, {path: 'detailView>Enabled'}],  formatter:'.formatter.numberFormat'}" 
                     	liveChange="onLiveChange" change="onAmountChange" textAlign="Right"  enabled="{detailView>Enabled}" />
@@ -89,9 +87,6 @@
 						text="{parts: [{path: 'appView>/userFormat/DecimalFormat'}, {path: 'detailView>AvailBalance'}],  formatter:'.formatter.numberFormat'}"  visible="{= (${appView>/scenario} ==='02')?true:false }"/> <!--{= (${detailView>RemitEnabled} ==='X')?true:false }  -->
 					<Input id="_IDGenText411" 
 						value="{detailView>Remittance}" enabled="false"   visible="{= (${appView>/scenario} ==='02')?true:false }"  />                        
-					<!--<Input id="_IDGenText411" 
-						value="{detailView>Remittance}" enabled="{parts: [{path:'detailView>RemitEnabled'},{path:'detailView>Enabled'}], formatter:'.formatter.RemitEnabled'}"   visible="{= (${appView>/scenario} ==='02')?true:false }"  />-->                        
-
 
 					<Text id="_IDGenText5"
 						text="{detailView>StatusT}" />
